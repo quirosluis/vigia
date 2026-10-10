@@ -1,0 +1,20 @@
+# Maven / Java
+target/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Secretos y configuración local
+.env*
+*.local
+
+# Datos de la sonda (mediciones reales, no se suben)
+*.log
+datos/
+
+# Sistema y Python
+.DS_Store
+Thumbs.db
+__pycache__/
