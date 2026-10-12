@@ -32,7 +32,7 @@ timestamp_utc,objetivo,ok,latencia_ms,bateria,cargando
 | `timestamp_utc` | `ISO 8601` en UTC | Marca temporal de la medición (ej. `2026-10-10T18:42:07Z`). |
 | `objetivo` | Valores cerrados | Elemento evaluado (ej. `router`, `internet`, `dns`, y más adelante `camara-1`). |
 | `ok` | `1` o `0` | Estado de la comprobación (`1` si hay éxito, `0` si falla). |
-| `latencia_ms` | Numérico / Vacío | Tiempo de respuesta en milisegundos. Queda **vacío si `ok=0`** (nunca se usa `0`, ya que 0 ms puede interpretarse erróneamente como una medición perfecta). |
+| `latencia_ms` | Numérico / Vacío | Tiempo de respuesta en milisegundos. Queda **null si `ok=0`**. |
 | `bateria` | Porcentaje entero | Nivel de batería actual del dispositivo sonda (`0` a `100`). |
 | `cargando` | `1` o `0` | Estado de carga del dispositivo (`1` si está conectado a la corriente, `0` si descarga). |
 
