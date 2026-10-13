@@ -10,6 +10,7 @@ Hora local, con la zona (Madrid). La sonda registra en UTC; convierto al compara
 - **Qué comprobé:** si hay luz en el sitio (si sé algo), si el resto de internet funciona, si otras cámaras responden.
 - **Cuánto duró** y **cómo se resolvió** (volvió sola, reinicié algo, esperé).
 - **Sospecha:** mi hipótesis, aunque sea dudosa.
+- **Modo batería:** configuración de modo batería, por defecto partimos de "Ahorro de energía".
 
 ## Entradas reales
 
