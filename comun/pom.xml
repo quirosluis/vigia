@@ -4,16 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- 1. Quién eres -->
-    <groupId>io.github.quirosluis</groupId>
-    <artifactId>vigia-backend</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>io.github.quirosluis</groupId>
+        <artifactId>vigia</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
 
-    <!-- 2. Cómo compilas -->
-    <properties>
-        <maven.compiler.release>21</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <!-- 1. Quién eres -->
+    <artifactId>vigia-comun</artifactId>
 
     <!-- 3. De qué dependes -->
     <dependencies>
