@@ -11,6 +11,7 @@
 
     <modules>
         <module>comun</module>
+        <module>sonda</module>
     </modules>
 
     <properties>
