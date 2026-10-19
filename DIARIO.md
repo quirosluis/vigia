@@ -27,4 +27,4 @@ Hora local, con la zona (Madrid). La sonda registra en UTC; convierto al compara
 ## Pruebas provocadas (no son fallos reales)
 
 | Fecha y hora | Qué provoqué | Qué esperaba ver |
-|---|---|---|
+| 19:11:48Z, 21:11:48 | desconecté el cargador | Indicador de carga a 0 |
