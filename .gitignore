@@ -1,5 +1,6 @@
 # Maven / Java
 target/
+dependency-reduced-pom.xml
 
 # IDEs
 .idea/
@@ -7,7 +8,7 @@ target/
 .vscode/
 
 # Secretos y configuración local
-.env*
+env.local
 *.local
 
 # Datos de la sonda (mediciones reales, no se suben)

@@ -41,3 +41,7 @@ timestamp_utc,objetivo,ok,latencia_ms,bateria,cargando
 ## 🌐 Enfoque Multi-Sitio
 
 El envío de este log desde la sonda incluye de forma inherente la identificación del origen o **sitio** emisor, arquitectura pensada desde el diseño para escalar y soportar múltiples ubicaciones de forma centralizada.
+
+## Deuda
+
+- No disponemos de copia de seguridad de la base de datos PostgreSQL

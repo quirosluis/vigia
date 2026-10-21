@@ -27,4 +27,8 @@ Hora local, con la zona (Madrid). La sonda registra en UTC; convierto al compara
 ## Pruebas provocadas (no son fallos reales)
 
 | Fecha y hora | Qué provoqué | Qué esperaba ver |
+| 16:59:48Z, 18:59:48 | informamos conttraseña incorrecta | Nos retorna error: FATAL: password authentication failed for user "vigia" |
+| 17:01:48Z, 19:01:48 | cerramos el tunel ssh | Nos retorna error: Connection to 127.0.0.1:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections. |
+| 17:02:48Z, 19:02:48 | informamos DB errónea | Nos retorna error: FATAL: database "vigiaaa" does not exist |
+| 19:11:48Z, 21:11:48 | desconecté el cargador | Indicador de carga a 0 |
 | 19:11:48Z, 21:11:48 | desconecté el cargador | Indicador de carga a 0 |
