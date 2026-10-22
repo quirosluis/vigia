@@ -8,11 +8,6 @@ public final class MedicionFormatter {
 
     public static String formatear(Medicion m) {
 
-        if (m.ok() && m.latenciaMs() == null) {
-            throw new IllegalArgumentException(
-                    "Una medición con ok=1 necesita latenciaMs: " + m);
-        }
-
         return String.join(",",
                 m.timestampUtc().toString(),
                 m.objetivo(),

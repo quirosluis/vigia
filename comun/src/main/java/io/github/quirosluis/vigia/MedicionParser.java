@@ -7,8 +7,7 @@ import static java.lang.Integer.parseInt;
 
 public final class MedicionParser {
 
-    private static final int MAX_BATERIA = 100;
-    private static final int MIN_BATERIA = 0;
+
 
     public static Medicion parsear(String linea) {
         String[] campos = linea.split(",", -1);
@@ -27,16 +26,8 @@ public final class MedicionParser {
             latenciaMs = null;
         }
         int bateria = parsearEntero("bateria",campos[4]);
-        validaBateria(bateria);
         boolean cargando = parsearBooleano("cargando", campos[5]);
         return new Medicion(timestampUtc, objetivo, ok, latenciaMs, bateria, cargando);
-    }
-
-    private static void validaBateria(int bateria) {
-
-        if ( bateria > MAX_BATERIA|| bateria < MIN_BATERIA) {
-            throw new IllegalArgumentException("El campo bateria está fuera de rango ("+MIN_BATERIA+"-"+MAX_BATERIA+"): "+bateria);
-        }
     }
 
     private static String validaInformado(String nombreCampo, String campo) {
