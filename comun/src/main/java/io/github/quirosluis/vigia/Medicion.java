@@ -22,7 +22,10 @@ public record Medicion(Instant timestampUtc, String objetivo, boolean ok, Intege
                 throw new IllegalArgumentException("latenciaMs no puede ser negativa: "+latenciaMs);
             }
         }
-
+        String caracteresInvalidos = "\n,\r";
+        if (objetivo.chars().anyMatch(c -> caracteresInvalidos.indexOf(c) >= 0)) {
+            throw new IllegalArgumentException("objetivo no puede contener comas ni saltos de línea");
+        }
         if(!ok) {
             latenciaMs = null;
         }

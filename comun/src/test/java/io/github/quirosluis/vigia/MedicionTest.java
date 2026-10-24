@@ -71,5 +71,27 @@ class MedicionTest {
         Medicion m = new Medicion(Instant.parse("2026-10-10T18:42:07Z"), "Router", false, 250, 80, false);
         assertThat(m.latenciaMs()).isNull();
     }
-
+    @Test
+    void rechazaObjetivoCaracterInvalidoR() {
+        assertThatThrownBy(() -> new Medicion(Instant.parse("2026-10-10T18:42:07Z"),"Router\r", true, 120, 18, false))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("objetivo");
+    }
+    @Test
+    void rechazaObjetivoCaracterInvalidoN() {
+        assertThatThrownBy(() -> new Medicion(Instant.parse("2026-10-10T18:42:07Z"),"Router\n", true, 120, 18, false))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("objetivo");
+    }
+    @Test
+    void rechazaObjetivoCaracterInvalidoComa() {
+        assertThatThrownBy(() -> new Medicion(Instant.parse("2026-10-10T18:42:07Z"),"Router,", true, 120, 18, false))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("objetivo");
+    }
+    @Test
+    void paraOkFalseRetornaLatenciaNull() {
+        Medicion m = new Medicion(Instant.parse("2026-10-10T18:42:07Z"), "Router", false, null, 80, false);
+        assertThat(m.latenciaMs()).isNull();
+    }
 }
