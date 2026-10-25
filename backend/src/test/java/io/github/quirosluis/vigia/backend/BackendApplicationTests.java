@@ -1,4 +1,4 @@
-package io.github.quirosluis.vigia;
+package io.github.quirosluis.vigia.backend;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package io.github.quirosluis.vigia;
+package io.github.quirosluis.vigia.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
