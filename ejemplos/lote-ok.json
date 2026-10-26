@@ -1,0 +1,9 @@
+{
+  "sitio": "demo",
+  "sonda": "movil-1",
+  "mediciones": [
+    {"timestampUtc": "2026-10-26T18:00:00Z", "objetivo": "router",   "ok": true,  "latenciaMs": 4,    "bateria": 80, "cargando": true},
+    {"timestampUtc": "2026-10-26T18:00:00Z", "objetivo": "internet", "ok": false, "latenciaMs": null, "bateria": 80, "cargando": true},
+    {"timestampUtc": "2026-10-26T18:00:00Z", "objetivo": "dns",      "ok": true,  "latenciaMs": 17, "bateria": 80, "cargando": true}
+  ]
+}
