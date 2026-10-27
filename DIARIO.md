@@ -3,6 +3,13 @@
 Una entrada por cada vez que la app de EZVIZ pierde una cámara.
 Hora local, con la zona (Madrid). La sonda registra en UTC; convierto al comparar.
 
+## Decisión sobre Idempotencia
+- clave natural única (sitio, sonda, timestamp_utc, objetivo).
+- Evidencia: el 25/10, dos sondas con ciclos coincidentes repitieron marcas de tiempo.
+- Solape parcial: se insertan las filas nuevas y se ignoran las existentes.
+- Política ante conflicto: DO NOTHING No queremos conflicto. Lo nuevo se añade, lo existente se ignora.
+- Límite: no cubre dos sondas con un offset distinto; eso se resuelve evitando el arranque duplicado, no en la ingestión.
+
 ## Cómo anotar
 
 - **Fecha y hora** en que lo noto, y desde dónde miro (casa, móvil con datos...).
