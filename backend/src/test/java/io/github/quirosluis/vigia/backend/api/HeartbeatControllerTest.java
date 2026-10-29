@@ -1,36 +1,53 @@
-package io.github.quirosluis.vigia.backend.api;
-
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import org.junit.jupiter.api.BeforeAll;
+import io.github.quirosluis.vigia.backend.api.HeartbeatController;
+import io.github.quirosluis.vigia.backend.ingesta.IngestaService;
 import org.junit.jupiter.api.Test;
-
-import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 
+@WebMvcTest(HeartbeatController.class)
 class HeartbeatControllerTest {
 
-    private static Validator validator;
-    @BeforeAll
-    static void creaValidador() {
-        validator = Validation.buildDefaultValidatorFactory().getValidator();
-    }
+    @Autowired
+    private MockMvcTester mvc;
 
-    private static MedicionRequest medicionValida() {
-        return new MedicionRequest(Instant.parse("2026-10-10T18:42:07Z"), "router", true, 132, 83, true);
-    }
+    @MockitoBean
+    private IngestaService servicio;
 
-    private static LoteRequest loteValido() {
-        return new LoteRequest("torre", "sonda1", List.of(medicionValida()));
+    @Test
+    void loteValidoLlamaAlServicioYDevuelve202() {
+        assertThat(mvc.post().uri("/api/heartbeats")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"sitio":"torre","sonda":"sonda1","mediciones":[
+                          {"timestampUtc":"2026-10-10T18:42:07Z","objetivo":"router","ok":true,"latenciaMs":165,"bateria":95,"cargando":true},
+                          {"timestampUtc":"2026-10-10T18:42:07Z","objetivo":"internet","ok":true,"latenciaMs":12,"bateria":95,"cargando":true}]}
+                        """)
+                .exchange()).hasStatus(HttpStatus.ACCEPTED);
+
+        verify(servicio).guardar(any());
     }
 
     @Test
-    void loteEsValido2registros() {
-        var l = loteValido();
-        var lMil = new LoteRequest(l.sitio(),l.sonda(), Collections.nCopies(2, medicionValida()));
-        assertThat(validator.validate(lMil)).isEmpty();
+    void loteSinSitioDevuelve400YNoLlamaAlServicio() {
+        assertThat(mvc.post().uri("/api/heartbeats")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"sonda":"sonda1","mediciones":[
+                          {"timestampUtc":"2026-10-10T18:42:07Z","objetivo":"router","ok":true,"latenciaMs":165,"bateria":95,"cargando":true}]}
+                        """)
+                .exchange())
+                .hasStatus(HttpStatus.BAD_REQUEST)
+                .bodyJson().extractingPath("$.errores[0].campo").isEqualTo("sitio");
+
+        verifyNoInteractions(servicio);
     }
 }

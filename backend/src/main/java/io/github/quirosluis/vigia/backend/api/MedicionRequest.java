@@ -1,5 +1,6 @@
 package io.github.quirosluis.vigia.backend.api;
 
+import io.github.quirosluis.vigia.Medicion;
 import jakarta.validation.constraints.*;
 
 import java.time.Instant;
@@ -20,5 +21,9 @@ public record MedicionRequest(
             return true;   // ya lo reporta @NotNull sobre ok
         }
         return !ok || latenciaMs != null;
+    }
+
+    public Medicion aMedicion() {
+        return new Medicion(timestampUtc, objetivo, ok, latenciaMs, bateria,cargando);
     }
 }
