@@ -36,6 +36,10 @@ timestamp_utc,objetivo,ok,latencia_ms,bateria,cargando
 | `bateria` | Porcentaje entero | Nivel de batería actual del dispositivo sonda (`0` a `100`). |
 | `cargando` | `1` o `0` | Estado de carga del dispositivo (`1` si está conectado a la corriente, `0` si descarga). |
 
+Definida clave única manualmente con @UniqueConstraint, en un futuro Flyway lo ha de sustituir.
+
+Tests de integración (*IT): requieren túnel y variables, y se lanzan con mvn -pl backend -am test -Dtest=IngestaServiceIT "-Dsurefire.failIfNoSpecifiedTests=false". mvn test no los ejecuta.
+
 ---
 
 ## 🌐 Enfoque Multi-Sitio

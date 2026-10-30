@@ -12,7 +12,11 @@ MedicionEntity: una columna por campo de Medicion,
    Integer para la latencia (puede ser null) y boolean para ok y cargando.
  */
 @Entity
-@Table(name = "medicion")
+@Table(name = "medicion",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_medicion",
+                columnNames = {"sitio", "sonda", "timestamp_utc", "objetivo"}))
+
 public class MedicionEntity {
     // Instant timestampUtc, String objetivo, boolean ok, Integer latenciaMs, int bateria, boolean cargando
     @Id
@@ -20,28 +24,28 @@ public class MedicionEntity {
 
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "timestamp_utc", nullable = false)
     private Instant timestampUtc;
 
-    @Column(nullable = false)
+    @Column(name = "sitio", nullable = false)
     private String sitio;
 
-    @Column(nullable = false)
+    @Column(name = "sonda", nullable = false)
     private String sonda;
 
-    @Column(nullable = false)
+    @Column(name = "objetivo", nullable = false)
     private String objetivo;
 
-    @Column(nullable = false)
+    @Column(name = "ok", nullable = false)
     private boolean ok;
 
-    @Column(nullable = true)
+    @Column(name = "latencia_ms", nullable = true)
     private Integer latenciaMs;
 
-    @Column(nullable = false)
+    @Column(name = "bateria", nullable = false)
     private int bateria;
 
-    @Column(nullable = false)
+    @Column(name = "cargando", nullable = false)
     private boolean cargando;
 
     protected MedicionEntity() {

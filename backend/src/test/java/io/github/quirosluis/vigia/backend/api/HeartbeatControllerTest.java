@@ -1,4 +1,5 @@
-import io.github.quirosluis.vigia.backend.api.HeartbeatController;
+package io.github.quirosluis.vigia.backend.api;
+
 import io.github.quirosluis.vigia.backend.ingesta.IngestaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
