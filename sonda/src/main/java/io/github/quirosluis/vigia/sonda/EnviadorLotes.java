@@ -1,29 +1,39 @@
 package io.github.quirosluis.vigia.sonda;
 
+import io.github.quirosluis.vigia.Medicion;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.List;
 
-public class EnviadorLotes {
-
-    public enum Resultado { ENVIADO, RECHAZADO, REINTENTAR }
+public final class EnviadorLotes implements Enviador {
 
     private static final System.Logger LOG = System.getLogger(EnviadorLotes.class.getName());
 
+    private final String sitio;
+    private final String sonda;
     private final HttpClient cliente;
     private final URI destino;
 
-    public EnviadorLotes(URI destino) {
+    public EnviadorLotes(URI destino, String sitio, String sonda) {
         this.destino = destino;
+        this.sitio = sitio;
+        this.sonda = sonda;
         this.cliente = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .build();
     }
 
-    public Resultado enviar(String json) {
+    @Override
+    public Resultado enviar(List<Medicion> trozo) {
+        return enviarJson(LoteJson.aJson(sitio, sonda, trozo));
+    }
+
+    private Resultado enviarJson(String json) {
         HttpRequest peticion = HttpRequest.newBuilder(destino)
                 .timeout(Duration.ofSeconds(10))
                 .header("Content-Type", "application/json")
