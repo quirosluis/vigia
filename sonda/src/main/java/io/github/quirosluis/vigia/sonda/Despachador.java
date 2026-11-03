@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public final class Despachador {
 
@@ -14,10 +15,12 @@ public final class Despachador {
 
     private final EstadoEnvio estado;
     private final Enviador enviador;
+    private final Consumer<List<Medicion>> alRechazar;
 
-    public Despachador(EstadoEnvio estado, Enviador enviador) {
+    public Despachador(EstadoEnvio estado, Enviador enviador, Consumer<List<Medicion>> alRechazar) {
         this.estado = estado;
         this.enviador = enviador;
+        this.alRechazar = alRechazar;
     }
 
     public void enviarPendientes(List<Medicion> mediciones) throws IOException {
@@ -34,6 +37,8 @@ public final class Despachador {
             if (resultado == Enviador.Resultado.REINTENTAR) {
                 return;
             }
+            if (resultado == Enviador.Resultado.RECHAZADO) { alRechazar.accept(chunk); }
+
             estado.guardar(ultimaMarca(chunk));
         }
     }

@@ -31,7 +31,7 @@ public class DespachadorTest {
         Despachador d = new Despachador(estado(), trozo -> {
             enviados.add(trozo);
             return Enviador.Resultado.ENVIADO;
-        });
+        }, trozo -> {});
 
         d.enviarPendientes(List.of(medicion("2026-11-02T10:00:00Z"), medicion("2026-11-02T10:00:15Z")));
 
@@ -40,7 +40,7 @@ public class DespachadorTest {
 
     @Test
     void siFallaElEnvioElEstadoNoAvanza() throws IOException {
-        Despachador d = new Despachador(estado(), trozo -> Enviador.Resultado.REINTENTAR);
+        Despachador d = new Despachador(estado(), trozo -> Enviador.Resultado.REINTENTAR, trozo -> {});
 
         d.enviarPendientes(List.of(medicion("2026-11-02T10:00:00Z")));
 
@@ -53,7 +53,7 @@ public class DespachadorTest {
         Despachador d = new Despachador(estado(), trozo -> {
             enviados.add(trozo);
             return Enviador.Resultado.ENVIADO;
-        });
+        }, trozo -> {});
 
         d.enviarPendientes(List.of(
                 medicion("2026-11-02T10:00:00Z"),        // anterior: no se envía
@@ -67,6 +67,32 @@ public class DespachadorTest {
                         .extracting(Medicion::timestampUtc)
                         .containsExactly(Instant.parse("2026-11-02T10:00:15Z"),
                                 Instant.parse("2026-11-02T10:00:30Z")));
+    }
+
+    @Test
+    void unLoteRechazadoAvisaYAvanza() throws IOException {
+        List<List<Medicion>> rechazados = new ArrayList<>();
+        Despachador d = new Despachador(estado(),
+                trozo -> EnviadorLotes.Resultado.RECHAZADO,
+                rechazados::add);                        // referencia a método: x -> rechazados.add(x)
+
+        d.enviarPendientes(List.of(medicion("2026-11-03T10:00:00Z")));
+
+        assertThat(rechazados).singleElement()
+                .satisfies(t -> assertThat(t).extracting(Medicion::timestampUtc)
+                        .containsExactly(Instant.parse("2026-11-03T10:00:00Z")));
+        assertThat(estado().ultimoEnviado()).contains(Instant.parse("2026-11-03T10:00:00Z"));
+    }
+
+    @Test
+    void unLoteEnviadoNoSeGuardaComoRechazado() throws IOException {
+        List<List<Medicion>> rechazados = new ArrayList<>();
+        Despachador d = new Despachador(estado(),
+                trozo -> EnviadorLotes.Resultado.ENVIADO, rechazados::add);
+
+        d.enviarPendientes(List.of(medicion("2026-11-03T10:00:00Z")));
+
+        assertThat(rechazados).isEmpty();
     }
 
 }
