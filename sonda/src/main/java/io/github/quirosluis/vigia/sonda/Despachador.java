@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public final class Despachador {
 
-    private static final int MAX_LOTE = 1000;
+    private static final int MAX_LOTE = 250;
 
     private final EstadoEnvio estado;
     private final Enviador enviador;

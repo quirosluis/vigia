@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -94,5 +95,19 @@ public class DespachadorTest {
 
         assertThat(rechazados).isEmpty();
     }
+    @Test
+    void trocea_en_lotes_de_como_maximo_250() throws IOException {
+        Instant base = Instant.parse("2026-11-05T10:00:00Z");
+        List<Medicion> muchas = IntStream.range(0, 600)
+                .mapToObj(i -> new Medicion(base.plusSeconds(i), "router", true, 4, 80, true))
+                .toList();
+        Despachador d = new Despachador(estado(), trozo -> {
+            enviados.add(trozo);
+            return Enviador.Resultado.ENVIADO;
+        }, trozo -> {});
 
+        d.enviarPendientes(muchas);
+
+        assertThat(enviados).extracting(List::size).containsExactly(250, 250, 100);
+    }
 }

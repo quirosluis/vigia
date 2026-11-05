@@ -7,12 +7,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpTimeoutException;
 import java.time.Duration;
 import java.util.List;
 
 public final class EnviadorLotes implements Enviador {
 
     private static final System.Logger LOG = System.getLogger(EnviadorLotes.class.getName());
+
+    private static final Duration TIMEOUT_PETICION = Duration.ofSeconds(60);
 
     private final String sitio;
     private final String sonda;
@@ -35,7 +38,7 @@ public final class EnviadorLotes implements Enviador {
 
     private Resultado enviarJson(String json) {
         HttpRequest peticion = HttpRequest.newBuilder(destino)
-                .timeout(Duration.ofSeconds(10))
+                .timeout(TIMEOUT_PETICION)
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
@@ -50,6 +53,10 @@ public final class EnviadorLotes implements Enviador {
                 return Resultado.RECHAZADO;
             }
             LOG.log(System.Logger.Level.WARNING, "El servidor respondió {0}; se reintentará", codigo);
+            return Resultado.REINTENTAR;
+        } catch (HttpTimeoutException e) {                      // antes que IOException: es una subclase
+            LOG.log(System.Logger.Level.WARNING,
+                    "El servidor tardó más de {0} s en responder; se reintentará", TIMEOUT_PETICION.toSeconds());
             return Resultado.REINTENTAR;
         } catch (IOException e) {
             LOG.log(System.Logger.Level.WARNING, "Sin conexión con el servidor: {0}", e.getMessage());
