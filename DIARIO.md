@@ -10,6 +10,9 @@ Hora local, con la zona (Madrid). La sonda registra en UTC; convierto al compara
 - Política ante conflicto: DO NOTHING No queremos conflicto. Lo nuevo se añade, lo existente se ignora.
 - Límite: no cubre dos sondas con un offset distinto; eso se resuelve evitando el arranque duplicado, no en la ingestión.
 
+## Decisión sobre Historico
+- Conservamos los datos históricos de pruebas en la carpeta datos, pero no los enviamos, estableceremos el punto de partida en estado-envio.txt
+
 ## Cómo anotar
 
 - **Fecha y hora** en que lo noto, y desde dónde miro (casa, móvil con datos...).
