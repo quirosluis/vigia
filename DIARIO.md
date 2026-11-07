@@ -13,6 +13,13 @@ Hora local, con la zona (Madrid). La sonda registra en UTC; convierto al compara
 ## Decisión sobre Historico
 - Conservamos los datos históricos de pruebas en la carpeta datos, pero no los enviamos, estableceremos el punto de partida en estado-envio.txt
 
+## Decisiones semana 4
+- Lotes rechazados: se avanza, se registra y se guarda en datos/rechazados-AAAA-MM-DD.log.
+- Histórico enviado desde el 2/11 (motivo: apagones del 31/10, 1/11 y 3/11 y el router mal medido hasta el 22/10); los ficheros anteriores se conservan sin enviar.
+- Nombres de la clave: sitio = casa, sonda = movil-oneplus.
+- Lotes de 250 con 60 s de tiempo máximo, porque con 1.000 el backend (que inserta de uno en uno) tardaba más de 10 s.
+- Reintento ante no bytes: aparcado; los tres avisos fueron de la puesta al día y no se han repetido en ≈ 1.400 rondas.
+
 ## Cómo anotar
 
 - **Fecha y hora** en que lo noto, y desde dónde miro (casa, móvil con datos...).

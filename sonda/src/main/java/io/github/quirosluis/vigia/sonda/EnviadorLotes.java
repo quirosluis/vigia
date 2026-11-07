@@ -59,7 +59,7 @@ public final class EnviadorLotes implements Enviador {
                     "El servidor tardó más de {0} s en responder; se reintentará", TIMEOUT_PETICION.toSeconds());
             return Resultado.REINTENTAR;
         } catch (IOException e) {
-            LOG.log(System.Logger.Level.WARNING, "Sin conexión con el servidor: {0}", e.getMessage());
+            LOG.log(System.Logger.Level.WARNING, "Sin conexión con el servidor: {0}", e.toString());
             return Resultado.REINTENTAR;
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
