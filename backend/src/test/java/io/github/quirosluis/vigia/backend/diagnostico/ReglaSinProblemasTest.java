@@ -39,10 +39,30 @@ class ReglaSinProblemasTest {
     }
 
     @Test
-    void unFalloEnLaVentanaImpideDecirlo() {
+    void unFalloEnLaVentanaInternetImpideDecirlo() {
         List<Medicion> ciclos = unir(
                 ciclo("2026-11-08T10:00:00Z", true, true, true),
                 ciclo("2026-11-08T10:00:15Z", true, false, true),      // un fallo
+                ciclo("2026-11-08T10:00:30Z", true, true, true));
+
+        assertThat(regla.evaluar(ciclos)).isEmpty();
+    }
+
+    @Test
+    void unFalloEnLaVentanaDNSImpideDecirlo() {
+        List<Medicion> ciclos = unir(
+                ciclo("2026-11-08T10:00:00Z", true, true, true),
+                ciclo("2026-11-08T10:00:15Z", true, true, true),      // un fallo
+                ciclo("2026-11-08T10:00:30Z", true, true, false));
+
+        assertThat(regla.evaluar(ciclos)).isEmpty();
+    }
+
+    @Test
+    void unFalloEnLaVentanaRouterImpideDecirlo() {
+        List<Medicion> ciclos = unir(
+                ciclo("2026-11-08T10:00:00Z", false, true, true),
+                ciclo("2026-11-08T10:00:15Z", true, true, true),      // un fallo
                 ciclo("2026-11-08T10:00:30Z", true, true, true));
 
         assertThat(regla.evaluar(ciclos)).isEmpty();
@@ -57,7 +77,7 @@ class ReglaSinProblemasTest {
     void conUnCicloIncompletoNoCuenta() {
         List<Medicion> ciclos = unir(
                 ciclo("2026-11-08T10:00:00Z", true, true, true),
-                List.of(m("2026-11-08T10:00:15Z", "router", true)));   // faltan firma y pago
+                List.of(m("2026-11-08T10:00:15Z", "router", true)));   // faltan internet y dns
 
         assertThat(regla.evaluar(ciclos)).isEmpty();
     }
@@ -78,6 +98,5 @@ class ReglaSinProblemasTest {
     void unaListaVaciaNoOpina() {
         assertThat(regla.evaluar(List.of())).isEmpty();
     }
-
 
 }
