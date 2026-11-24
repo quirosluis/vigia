@@ -20,6 +20,11 @@ Hora local, con la zona (Madrid). La sonda registra en UTC; convierto al compara
 - Lotes de 250 con 60 s de tiempo máximo, porque con 1.000 el backend (que inserta de uno en uno) tardaba más de 10 s.
 - Reintento ante no bytes: aparcado; los tres avisos fueron de la puesta al día y no se han repetido en ≈ 1.400 rondas.
 
+## Decisiones semana 5
+- Qué es “reciente”. Último ciclo completo con ≤ 5 min de antigüedad.
+- Qué es un hueco. Si no hay ningún ciclo completo en los últimos 5 min, la causa es SONDA_SIN_DATOS.
+- Dónde vive la hora. Vamos a implementar una regla con la hora que controle si hay datos recientes antes de evaluar el resto de reglas
+
 ## Cómo anotar
 
 - **Fecha y hora** en que lo noto, y desde dónde miro (casa, móvil con datos...).

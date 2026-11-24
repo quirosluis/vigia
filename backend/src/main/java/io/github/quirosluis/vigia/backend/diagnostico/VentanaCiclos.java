@@ -13,27 +13,29 @@ final class VentanaCiclos {
     private static final int MINIMO_CICLOS = 2;
     private static final Set<String> OBJETIVOS = Set.of("router", "internet", "dns");
 
-    static Optional<List<List<Medicion>>> ultimos(List<Medicion> mediciones) {
+    private VentanaCiclos() { }
 
+    /** Todas los ciclos completos, ordenados por marca. Puede estar vacía. */
+    static List<List<Medicion>> completas(List<Medicion> mediciones) {
         Map<Instant, List<Medicion>> porMarca = mediciones.stream()
                 .collect(Collectors.groupingBy(Medicion::timestampUtc, TreeMap::new, Collectors.toList()));
 
-        List<List<Medicion>> completas = porMarca.values().stream()
+        return porMarca.values().stream()
                 .filter(VentanaCiclos::estaCompleta)
                 .toList();
+    }
 
+    static Optional<List<List<Medicion>>> ultimos(List<Medicion> mediciones) {
+        List<List<Medicion>> completas = completas(mediciones);
         if (completas.size() < MINIMO_CICLOS) {
             return Optional.empty();
         }
-
-        List<List<Medicion>> ventana = completas.subList(
-                Math.max(0, completas.size() - VENTANA_CICLOS), completas.size());
-
-        return Optional.of(ventana);
+        return Optional.of(completas.subList(
+                Math.max(0, completas.size() - VENTANA_CICLOS), completas.size()));
     }
 
-    private static boolean estaCompleta(List<Medicion> ventana) {
-        Set<String> objetivos = ventana.stream().map(Medicion::objetivo).collect((Collectors.toSet()));
+    private static boolean estaCompleta(List<Medicion> ciclo) {
+        Set<String> objetivos = ciclo.stream().map(Medicion::objetivo).collect((Collectors.toSet()));
         return objetivos.containsAll(OBJETIVOS);
     }
 }
