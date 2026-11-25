@@ -7,7 +7,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.stream.Stream;
+import static io.github.quirosluis.vigia.backend.diagnostico.CiclosDePrueba.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,19 +25,6 @@ class ReglaSondaSinDatosTest {
                 ciclo(marca.minusSeconds(30).toString(), true, true, true),
                 ciclo(marca.minusSeconds(15).toString(), true, true, true),
                 ciclo(marca.toString(), true, true, true));
-    }
-
-    private static Medicion m(String marca, String objetivo, boolean ok) {
-        return new Medicion(Instant.parse(marca), objetivo, ok, ok ? 5 : null, 80, true);
-    }
-
-    private static List<Medicion> ciclo(String marca, boolean router, boolean internet, boolean dns) {
-        return List.of(m(marca, "router", router), m(marca, "internet", internet), m(marca, "dns", dns));
-    }
-
-    @SafeVarargs
-    private static List<Medicion> unir(List<Medicion>... ciclos) {
-        return Stream.of(ciclos).flatMap(List::stream).toList();
     }
 
     @Test
