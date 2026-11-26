@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:17
+    user: "999:999"
     container_name: vigia-postgres
     restart: unless-stopped
     environment:
