@@ -1,6 +1,6 @@
 package io.github.quirosluis.vigia.backend.persistencia;
 
-
+import io.github.quirosluis.vigia.Medicion;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -96,5 +96,10 @@ public class MedicionEntity {
 
     public boolean isCargando() {
         return cargando;
+    }
+
+    /** Entidad → dominio. Medicion vuelve a validar al construirse. */
+    public Medicion aMedicion() {
+        return new Medicion(timestampUtc, objetivo, ok, latenciaMs, bateria, cargando);
     }
 }

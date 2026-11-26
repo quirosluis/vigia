@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
+import java.util.List;
 
 public interface MedicionRepository extends JpaRepository<MedicionEntity, Long> {
 
@@ -25,5 +26,7 @@ public interface MedicionRepository extends JpaRepository<MedicionEntity, Long> 
                            @Param("cargando") Boolean cargando);
 
 
-
+    // SELECT ... WHERE sitio = ? AND sonda = ? AND timestamp_utc > ? ORDER BY timestamp_utc ASC
+    List<MedicionEntity> findBySitioAndSondaAndTimestampUtcAfterOrderByTimestampUtcAsc(
+            String sitio, String sonda, Instant desde);
 }
